@@ -1,0 +1,68 @@
+---
+layout: post
+title: Gogui y Gnugo
+date: 2014-11-04 19:44:06.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Software
+- Tutoriales
+tags: []
+meta:
+  _wpas_skip_facebook: '1'
+  _wpas_skip_google_plus: '1'
+  _wpas_skip_twitter: '1'
+  _wpas_skip_linkedin: '1'
+  _wpas_skip_tumblr: '1'
+  _wpas_skip_path: '1'
+  _edit_last: '1881'
+  geo_public: '0'
+  _publicize_job_id: '20338216473'
+author:
+  login: put0linux
+  email: uc3709@yahoo.es
+  display_name: put0linux
+  first_name: Emilio
+  last_name: Díaz
+permalink: "/2014/11/04/gogui-y-gnugo/"
+---
+<p>En el mundo del Go, al contrario que en el del ajedrez, los programas aún son bastante más débiles que los mejores humanos, pero aún así ya tienen una fuerza suficiente como para poder ser útiles a aficionados. Hoy hablaremos sobre Gnugo, un motor de Go de software libre, con algunas características, como la de analizar partidas, que nos pueden ser de utilidad.</p>
+<p><strong>Instalando Gnugo</strong><br />
+Podemos descargar Gnugo desde <a href="https://www.gnu.org/software/gnugo/download.html">aquí</a>, tanto para windows como para linux (aunque desde linux lo más sencillo será instalarlo desde los repositorios de nuestra distro, por ejemplo con "apt-get install gnugo").<br />
+Para android hay muchas aplicaciones gratuitas que usan Gnugo como motor; lo más sencillo es entrar en <a href="https://play.google.com/store/apps">google play</a> y elegir la que más nos guste.<br />
+Una vez que tenemos Gnugo instalado en nuestro ordenador lo podemos lanzar desde una consola, y podemos jugar contra él, con el inconveniente de que dibujará un tablero de Go con caracteres ASCII. Una alternativa interesante es trasladar los movimientos de cada bando a un tablero de Go convencional.</p>
+<p><strong>Jugando contra Gnugo</strong><br />
+A la hora de jugar contra Gnugo, las principales opciones que podemos elegir son el nivel del motor y el color con el que queremos jugar (si no elegimos ninguna de estas opciones, Gnugo elegirá por defecto jugar con blancas al nivel 10), del siguiente modo:<br />
+    [code]$ gnugo --level 15 --color white[/code]<br />
+Y jugaremos con blancas contra Gnugo al nivel 15. Conviene hacer notar que el número del nivel no tiene ninguna relación con los niveles a que estamos acostumbrados. Un valor mayor para "--level" simplemente hará más fuerte a Gnugo (y más lento a la hora de mover, como es de esperar). Por cierto, aunque no hay datos claros al respecto, parece ser que la fuerza de Gnugo se puede estimar en 5-7 kyu.</p>
+<p><strong>Analizando partidas con Gnugo</strong><br />
+Una característica de Gnugo que puede ser especialmente útil para principiantes es la de analizar partidas que estén en formato sgf (Smart Game Format, el formato más habitual para guardar las partidas de Go). Si tenemos un archivo llamado mi_partida.sgf, con el siguiente comando Gnugo analizará los movimientos de ambos bandos y guardará el resultado en mi_partida_analizada.sgf:<br />
+[code]$ gnugo -l mi_partida.sgf --output-flags dv --level 10 --replay both -o mi_partida_analizada.sgf[/code]<br />
+Para cada movimiento, Gnugo dará su opción preferida, así como información acerca de algunos de los grupos de cada bando; si están en peligro o muertos. Como muestra, la siguiente imagen es el análisis de Gnugo de una posición determinada (en aras de la velocidad el análisis está hecho con el nivel 1, el más débil):<br />
+<a href="https://canbaduk.files.wordpress.com/2014/11/analisis_gnugo.png"><img src="{{ site.baseurl }}/assets/analisis_gnugo.png?w=300" alt="analisis_gnugo" width="300" height="300" class="aligncenter size-large wp-image-124" /></a><br />
+Con un círculo gris se marca el movimiento hecho en la partida. Si no coincide, como es el caso, con un círculo azul se marca el movimiento elegido por Gnugo. Los números que aparecen en algunas intersecciones son las valoraciones que da Gnugo a dichos movimientos (cuanto mayor, mejor). Las piedras marcadas con un aspa se consideran como muertas por parte de Gnugo, mientras que las marcadas con un signo de exclamación se consideran en peligro crítico.</p>
+<p><strong>Gogui, un interfaz para motores de Go</strong><br />
+El atento lector se puede haber preguntado: ¿de dónde ha salido el diagrama anterior? En el Go, al igual que ocurre en el ajedrez, los programas dedicados suelen cumplir una de dos funciones:<br />
+-La de <strong>motor</strong>: es decir, ser un programa que juega al Go, sin ningún tipo de interfaz, más allá del terminal.<br />
+-La de <strong>interfaz</strong>, que nos permite visualizar partidas guardadas en formatos tales como el sgf, o jugar contra motores en un interfaz agradable.<br />
+A esta segunda familia de programas pertenece <a href="http://gogui.sourceforge.net/">Gogui</a>. Gogui funciona bajo java, de modo que su instalación es sencilla, por ejemplo mediante el <a href="http://sourceforge.net/projects/gogui/files/gogui/1.4.9/gogui-1.4.9-install.exe/download">instalador de windows</a>.</p>
+<p><strong>Añadir motores a Gogui</strong><br />
+Una vez instalado Gogui, para añadir un motor contra el que jugar, hemos de seguir los siguientes pasos:<br />
+-Abrir <strong>Program-&gt;New Program</strong><br />
+-En el campo "command", escribimos el comando que lanzará el programa. En caso de Gnugo, puede ser algo como <strong>"/usr/bin/gnugo --level 15 --mode gtp"</strong>. La opción "--mode gtp" es necesaria para indicarle a Gnugo que se va a tener que comunicar con Gogui por medio del protocolo "gtp".<br />
+-Tras dar a "Ok", en la siguiente ventana se nos pide rellenar el campo "Label". Una buena opción, ya que hemos elegido Gnugo en el nivel 15, podría ser "Gnugo 15". Finalmente damos a "Ok".<br />
+Si queremos tener, por ejemplo, una versión de Gnugo con nivel 20, repetiremos los pasos anteriores, excepto usando en el comando la opción "--level 20" y en el campo "Label" poner algo como "Gnugo 20". De este modo, podemos tener instaladas versiones con distintas fuerzas de Gnugo, interesante por ejemplo para elegir la fuerza si queremos jugar una partida.</p>
+<p><strong>Jugando contra Gnugo desde Gogui</strong><br />
+Una vez que tenemos una versión de Gnugo instalada en Gogui, una de las posibilidades es la de jugar contra Gnugo con un agradable interfaz (en vez de los símbolos ASCII del terminal). Para ello seguimos los siguientes pasos:<br />
+-Vamos a <strong>Program-&gt;Attach-&gt;Gnugo 15</strong> (o el nombre que le hayamos dado en el proceso de instalación)<br />
+-Vamos a "Game" y, antes de seleccionar "New Game", elegimos el tamaño del tablero, el handicap y el color con que juega el ordenador.<br />
+-Finalmente vamos a <strong>Game-&gt;New Game</strong></p>
+<p><strong>Viendo una partida con Gogui</strong><br />
+Para ver una partida guardada en formato sgf con Gogui, simplemente vamos a <strong>File-&gt;Open</strong> y elegimos el archivo en cuestión. Nos podemos mover por la partida con la ayuda del interfaz, y en el recuadro de la derecha aparecerán los comentarios que tuviere la partida.<br />
+En cualquier momento de la partida podemos jugar las variantes que queramos analizar sobre el tablero.<br />
+Yendo a <strong>Tools-&gt;Tree Viewer</strong> veremos el árbol de movimientos, así como las variantes que juguemos nosotros mismos sobre el tablero. Si queremos conservar estas variantes, antes de cerrar Gnugo deberemos guardar los cambios.<br />
+Una opción interensante a la hora de visualizar una partida con Gogui es la de analizar la posición que tenemos en el tablero con ayuda de cualquiera de los motores que tengamos instalados. Para ello tenemos que ir a <strong>Program-&gt;Attach</strong> y elegir el motor que prefiramos. Una vez que hayamos elegido el motor, en cualquier momento podemos ir a <strong>Program-&gt;Play Single Move</strong>, o pulsar "f5", y el programa jugará en la posición actual.</p>
+<p>Hay otros motores que podemos añadir a Gogui, así como otras funciones que nos pueden ser de utilidad, y hablaremos sobre ello en futuros posts.</p>

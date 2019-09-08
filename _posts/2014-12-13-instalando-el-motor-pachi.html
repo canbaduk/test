@@ -1,0 +1,46 @@
+---
+layout: post
+title: Instalando el motor Pachi
+date: 2014-12-13 20:46:18.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Software
+- Tutoriales
+tags: []
+meta:
+  _wpas_skip_facebook: '1'
+  _wpas_skip_google_plus: '1'
+  _wpas_skip_twitter: '1'
+  _wpas_skip_linkedin: '1'
+  _wpas_skip_tumblr: '1'
+  _wpas_skip_path: '1'
+  _rest_api_published: '1'
+  _rest_api_client_id: "-1"
+  _edit_last: '1881'
+  _publicize_job_id: '20456160261'
+author:
+  login: put0linux
+  email: uc3709@yahoo.es
+  display_name: put0linux
+  first_name: Emilio
+  last_name: Díaz
+permalink: "/2014/12/13/instalando-el-motor-pachi/"
+---
+<p>Pachi, al igual que <a href="https://www.gnu.org/software/gnugo/">Gnugo</a>, es otro motor de Go que podemos incorporar a la aplicación <a href="http://gogui.sourceforge.net">GoGui</a>.</p>
+<p>Pachi, a diferencia de Gnugo, basa su AI en el algoritmo <a href="https://en.wikipedia.org/wiki/Monte_Carlo_tree_search">MCTS</a> (Monte-Carlo Tree Search); <em>grosso modo</em>, estos motores basan la decisión de qué movimiento jugar en el resultado de un gran número de simulaciones, siendo este planteamiento el que mejor resultado está dando en el juego del Go.</p>
+<p><strong>Instalación</strong><br />
+La manera más sencilla e inmediata para instalar Pachi es descargar el código del repositorio por medio de:</p>
+<p>  <code>$ git clone http://repo.or.cz/w/pachi.git</code></p>
+<p>Tras esto simplemente entramos en el recién creado directorio "pachi" y ejecutamos "make":<br />
+  <code>$ cd pachi/<br />
+  $ make</code></p>
+<p>Si todo va bien, esto debería crear en el propio directorio el ejecutable "pachi".</p>
+<p><strong>Añadiendo Pachi a GoGui</strong><br />
+Al igual que Gnugo, Pachi es solamente un motor de ajedrez, sin interfaz gráfico. Para añadirlo a nuestra lista de motores debemos ir a Program -&gt; New Program. En "Working directory" pondremos la ruta completa del ejecutable que hemos creado (por ejemplo, ~/soft/pachi/), y en Command una buena opción es "~/soft/pachi/pachi pondering=0,maximize_score".<br />
+La opción "pondeirng=0" evita que Pachi esté pensando (y consumiendo cpu) mientras es nuestro turno, y la opción "maximize_score" hace que Pachi no abandone el juego, y también que juegue de manera más humana los finales. ¿Qué significa esto último? Para los motores de Go basados en MTSC, el mejor movimiento es aquel que les da una probabilidad más alta de ganar la partida, independientemente de la puntuación final (al fin y al cabo, ganar una partida de Go por un número de piedras mayor o menor, amor propio aparte, no modifica el resultado). De este modo, si un movimiento da una probabilidad del 99% de ganar la partida, con una diferencia de una piedra, mientras que otro da "sólo" del 95% aunque ganando por cinco piedras, el motor jugará el movimiento del 99%, dando lugar a movimientos aparentemente sin sentido para un humano. Resumiendo, la opción "maximize_score", hace que Pachi, en casos como este, se incline por el movimiento del 95%, dando lugar a lo que los humanos entendemos como un juego "mejor".<br />
+Otra opción que podemos usar es "threads=n", siendo "n" el número de threads en las que queremos que corra Pachi (n=1 por defecto).<br />
+Hay algunas otras opciones que podemos consultar en el archivo <a href="http://repo.or.cz/w/pachi.git/blob_plain/HEAD:/README">README</a>.</p>

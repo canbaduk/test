@@ -1,0 +1,41 @@
+---
+layout: post
+title: Analizando con Gnugo
+date: 2014-12-02 17:32:09.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Software
+- Tutoriales
+tags: []
+meta:
+  _wpas_skip_facebook: '1'
+  _wpas_skip_google_plus: '1'
+  _wpas_skip_twitter: '1'
+  _wpas_skip_linkedin: '1'
+  _wpas_skip_tumblr: '1'
+  _wpas_skip_path: '1'
+  _edit_last: '1881'
+  geo_public: '0'
+  _publicize_job_id: '20456167424'
+author:
+  login: put0linux
+  email: uc3709@yahoo.es
+  display_name: put0linux
+  first_name: Emilio
+  last_name: Díaz
+permalink: "/2014/12/02/analizando-con-gnugo/"
+---
+<p>Como ya comentamos en una <a href="https://canbaduk.wordpress.com/2014/11/04/gogui-y-gnugo/">entrada anterior</a>, podemos usar el interfaz <a href="http://gogui.sourceforge.net/">Gogui</a> para jugar contra el motor <a href="https://www.gnu.org/software/gnugo/">Gnugo</a>.<br />
+<!--more--></p>
+<p>Otra posibilidad es la de analizar una partida que tengamos en formato sgf. Para ello, tras abrig Gogui y cargar Gnugo por medio de Program -&gt; Attach -&gt; Nombre del motor, elegimos el menú Tools -&gt; Analyze Commands.<br />
+Esto nos abre una nueva ventana con la lista de comandos que podemos usar en cualquier posición.<br />
+Quizás los comandos más interesantes sean los de "Top Moves Black" y "Top Moves White". Al ejecutarlo sobre una posición, nos da las valoraciones de los mejores movimientos para blanco o negro, según elijamos. Por ejemplo, veamos los valores para esta posición de apertura en el que toca mover al negro:<br />
+<a href="https://canbaduk.files.wordpress.com/2014/12/gnugo_analisis1.png"><img src="{{ site.baseurl }}/assets/gnugo_analisis1.png?w=300" alt="gnugo_analisis" width="300" height="300" class="alignnone size-large wp-image-210" /></a><br />
+Gnugo considera que el mejor movimiento es R18, protegiendo la esquina, con una puntuación de 35 (hasta donde sabemos estos valores no se refieren a territorio, simplemente sirven para crear una escala que permite elegir entre los movimientos posibles).</p>
+<p>Otra información que puede ser de interés es la del estado en que se encuentran los "dragones":<br />
+<a href="https://canbaduk.files.wordpress.com/2014/12/gnugo_analisis_2.png"><img src="{{ site.baseurl }}/assets/gnugo_analisis_2.png?w=300" alt="gnugo_analisis_2" width="300" height="235" class="alignnone size-large wp-image-214" /></a></p>
+<p>Por ejemplo, el grupo D6 está crítico, siendo el punto E7 vital para su supervivencia.</p>

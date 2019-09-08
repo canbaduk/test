@@ -1,0 +1,68 @@
+---
+layout: post
+title: Cómo crear diagramas de Go en LaTeX
+date: 2014-10-25 11:21:33.000000000 +02:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- Software
+- Tutoriales
+tags: []
+meta:
+  _wpas_skip_facebook: '1'
+  _wpas_skip_google_plus: '1'
+  _wpas_skip_twitter: '1'
+  _wpas_skip_linkedin: '1'
+  _wpas_skip_tumblr: '1'
+  _wpas_skip_path: '1'
+  _edit_last: '1881'
+  geo_public: '0'
+  _publicize_job_id: '20338225684'
+author:
+  login: put0linux
+  email: uc3709@yahoo.es
+  display_name: put0linux
+  first_name: Emilio
+  last_name: Díaz
+permalink: "/2014/10/25/como-crear-diagramas-de-go-en-latex/"
+---
+<p>Los diagramas de posiciones de Go que colgamos en este blog están creados con LaTeX, en concreto con ayuda del paquete psgo. En esta entrada vamos a explicar cómo instalar dicho paquete, unas nociones básicas sobre su uso, y cómo generar imágenes .png de esos diagramas.</p>
+<p><strong>Instalando el paquete psgo para LaTeX:</strong><br />
+El paquete psgo.sty nos permite insertar lindos diagramas de Go en los documentos de LaTeX.<br />
+Antes que nada, psgo depende del paquete de LaTeX pstricks, de modo que deberemos comprobar si está instalado en nuestro sistema.<br />
+Tras este primer paso, para usar psgo descargamos el archivo <strong>psgo.sty</strong> desde <a href="http://www.ctan.org/tex-archive/graphics/pstricks/contrib/psgo/">aquí</a> (en esta misma url hay un psgomanual.pdf y un psgomanual.tex que lo genera, que nos servirán como documentación) y lo movemos a una ruta donde LaTeX lo pueda ver. Por ejemplo, en mi equipo en /usr/share/texmf-dist/tex/latex/psgo/psgo.sty<br />
+Como este paquete no lo hemos instalado por medio de nuestro gestor, ahora es necesario ejecutar el comando "texhash", de modo que latex sea capaz de encontrar el paquete psgo cuando lo invoquemos.</p>
+<p><strong>Creando nuestro primer diagrama:</strong><br />
+Si queremos generar documentos de LaTeX en español con diagramas de Go, nos encontraremos con que las coordenadas horizontales del tablero no van de la A a la T sino de la A a la S, debido al uso de la Ñ en nuestro alfabeto. Hay varias maneras de evitar esto, siendo la más sencilla añadir el paquete para español del siguiente modo:</p>
+<p>[code]<br />
+\usepackage[spanish,es-nolayout]{babel}<br />
+[/code]</p>
+<p>El trozo de código más sencillo de LaTeX que nos proporciona un diagrama de Go es el siguiente:</p>
+<p>[code language="latex"]<br />
+\documentclass[a4paper]{article}</p>
+<p>\usepackage{psgo}<br />
+\usepackage[spanish,es-nolayout]{babel}</p>
+<p>\begin{document}<br />
+  \begin{psgoboard}<br />
+    \stone{black}{q}{16}<br />
+  \end{psgoboard}<br />
+\end{document}<br />
+[/code]</p>
+<p>Como os podéis imaginar, este código genera un diagrama de Go con una piedra negra en Q16.</p>
+<p><strong>Compilando nuestro primer diagrama:</strong><br />
+Una vez que hemos dado todos los pasos anteriores podemos compilar nuestro archivo (que llamaremos go.tex) por medio de los siguientes comandos:<br />
+[code]<br />
+$ latex go.tex<br />
+$ dvips -P pdf go.dvi<br />
+$ ps2pdf go.ps<br />
+[/code]</p>
+<p>Este código generará un archivo go.pdf (por cierto, si preferimos trabajar con un IDE, una buena opción puede ser <a href="http://kile.sourceforge.net/">Kile</a>). Si estamos interesados en convertirlo a png (por ejemplo para integrarlo en un blog), podemos usar el comando "convert", parte del paquete para procesado de imágenes "imagemagick":<br />
+[code]<br />
+$ convert -density 300 -trim go.pdf -quality 100 go.png<br />
+[/code]</p>
+<p><strong>Simplificando la creación de diagramas:</strong><br />
+Si queremos escribir el código para una posición entera, la tarea puede ser bastante tediosa, además de ser muy fácil cometer errores. Una manera de simplificarnos la vida es por medio de la aplicación <a href="http://gogui.sourceforge.net/">Gogui</a>. En una de las próximas entradas hablaremos con detalle de Gogui; de momento baste con decir que se trata de un visualizador de partidas de Go y nos permite jugar contra programas. Por supuesto, y por eso se menciona ahora, también nos permite introducir posiciones de Go, ya sea manualmente o reproduciendo una partida guardada.<br />
+Para generar el código LaTeX para una posición determinada, simplemente hacemos <strong>File -&gt; Export -&gt; LaTeX position</strong>, y el archivo contendrá el código LaTeX de la posición con la sintaxis del paquete psgo.</p>

@@ -1,0 +1,68 @@
+---
+layout: post
+title: Configurando el motor Fuego
+date: 2015-01-13 10:58:20.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- motor
+- Software
+- Tutoriales
+tags: []
+meta:
+  _wpas_skip_facebook: '1'
+  _wpas_skip_google_plus: '1'
+  _wpas_skip_twitter: '1'
+  _wpas_skip_linkedin: '1'
+  _wpas_skip_tumblr: '1'
+  _wpas_skip_path: '1'
+  _rest_api_published: '1'
+  _rest_api_client_id: "-1"
+  _edit_last: '1881'
+  _publicize_job_id: '20456129831'
+author:
+  login: put0linux
+  email: uc3709@yahoo.es
+  display_name: put0linux
+  first_name: Emilio
+  last_name: Díaz
+permalink: "/2015/01/13/configurando-el-motor-fuego/"
+---
+<p>En una <a href="https://canbaduk.wordpress.com/2014/12/29/instalando-el-motor-fuego-bajo-linux/">entrada reciente</a> explicamos cómo instalar el motor Fuego en un entorno Linux, y hoy vamos a explicar cómo configurarlo para que funcione a nuestro gusto.</p>
+<p>Como explicamos en su día, para tener Fuego como motor disponible en GoGui simplemente vamos a Program-&gt;New Program y en el campo “Command” escribimos “fuego” y listos.<br />
+Esto ejecuta el motor con una serie de parámetros por defecto (por ejemplo, elegirá la RAM y el número de cores sobre los que ejecutarse), y si queremos modificarlos, podemos crear un archivo de configuración, que por simplicidad podemos guardar en el mismo directorio en el que se encuentra el código de Fuego.</p>
+<p><code># Number of cores to use<br />
+uct_param_search number_threads 2<br />
+uct_param_globalsearch territory_statistics 1<br />
+# Without lock-free enabled<br />
+# performance will be greatly reduced.<br />
+uct_param_search lock_free 1<br />
+# Maximum RAM to use<br />
+uct_max_memory 2000000000<br />
+uct_param_player reuse_subtree 1<br />
+# Think during oponent's time?<br />
+uct_param_player ponder 0<br />
+# We want to see the preffered variant<br />
+uct_param_search live_gfx sequence<br />
+# How often to update the variant info<br />
+uct_param_search live_gfx_interval 2000<br />
+# Limit time to move<br />
+go_param timelimit 20<br />
+# When to resign<br />
+uct_param_player resign_threshold 0.01</code></p>
+<p>Creo que los nombres de los parámetros hablan por sí solos, pero comentaré los más importantes:<br />
+<strong>uct_param_search number_threads 2</strong><br />
+El número de cores que queremos asignar a Fuego. En mi equipo, por defecto, usa los 4 que tiene disponible, y con esta opción lo reduzco a 2.<br />
+<strong>uct_param_player ponder 0</strong><br />
+¿Queremos que el motor esté "pensando" cuando no le toca jugar? Lo tengo desactivado, ya que el uso que hago de los motores es para analizar posiciones, y esta opción está pensada, sobre todo, para mejorar la fuerza de juego durante una partida.<br />
+<strong>uct_param_search live_gfx sequence</strong><br />
+Esta opción nos muestra en el interfaz la mejor variante que el motor ha encontrado hasta el momento.<br />
+<strong>uct_param_player resign_threshold 0.01</strong><br />
+Cuanto menor sea este número, más perdido se tiene que ver el motor para abandonar. En mi caso tengo un valor muy bajo, de nuevo porque al usarlo como herramienta de análisis, me interesa saber su opinión sobre la mejor continuación.</p>
+<p>Una vez creado el archivo de configuración, la instalación de Fuego en GoGui cambia un poco:<br />
+-- En el campo "Command" ahora podremos "fuego --config fuegoconf.cfg" (evidentemente, "fuegoconf.cfg" es el nombre que he dado al archivo de configuración".<br />
+-- En el campo "Working directory" deberemos poner la ruta en la que hemos guardado el archivo de configuración.</p>
+<p>Con esto ya tendremos el motor Fuego usando la configuración que prefiramos.</p>

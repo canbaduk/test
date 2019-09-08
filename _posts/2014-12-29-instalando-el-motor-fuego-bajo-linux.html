@@ -1,0 +1,60 @@
+---
+layout: post
+title: Instalando el motor Fuego bajo linux
+date: 2014-12-29 18:08:15.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- motor
+- Software
+- Tutoriales
+tags: []
+meta:
+  _wpas_skip_facebook: '1'
+  _wpas_skip_google_plus: '1'
+  _wpas_skip_twitter: '1'
+  _wpas_skip_linkedin: '1'
+  _wpas_skip_tumblr: '1'
+  _wpas_skip_path: '1'
+  _rest_api_published: '1'
+  _rest_api_client_id: "-1"
+  _edit_last: '1881'
+  _publicize_job_id: '20456154457'
+author:
+  login: put0linux
+  email: uc3709@yahoo.es
+  display_name: put0linux
+  first_name: Emilio
+  last_name: Díaz
+permalink: "/2014/12/29/instalando-el-motor-fuego-bajo-linux/"
+---
+<p>Por fin, y tras varios intentos fallidos, he encontrado la manera de instalar el motor <a href="http://fuego.sourceforge.net/">Fuego</a>.<br />
+Fuego es un motor basado en MCTS (Monte-Carlo Tree Search), de código abierto, de una fuerza bastante superior a <a href="https://www.gnu.org/software/gnugo/">Gnugo</a>.<br />
+A continuación voy a dar una serie de pasos que me han servido para poder compilarlo en mi equipo. Con esto quiero decir que probablemente haya otras maneras, pero esta es la que me ha funcionado. Por ejemplo, la versión de Fuego que he compilado está bajada desde los <a href="http://sourceforge.net/projects/fuego/">repositorios</a> del proyecto, pero posiblemente estas instrucciones sirvan también para la <a href="http://sourceforge.net/projects/fuego/">versión estable</a>.<br />
+El entorno de trabajo ha sido la distribución Xubuntu 14.10 x86_64.</p>
+<p>Para empezar, y aunque no se trate de una lista exhaustiva, deberíamos comprobar las siguientes dependencias:<br />
+-g++<br />
+-automake<br />
+-autoreconf<br />
+-subversion<br />
+-libboost1.55-tools-dev (o la versión que tenga nuestra distribución)</p>
+<p>Los pasos a seguir para la instalación serían:</p>
+<p>1- En un directorio local descargamos el repositorio por medio del comando:<br />
+<code>$ svn checkout svn://svn.code.sf.net/p/fuego/code/trunk fuego-code</code></p>
+<p>2- Entramos en el directorio "fuego-code" recién creado, y ejecutamos (es posible que la opción de "configure" sea distinta para otra distribución linux, o incluso que no sea necesaria):<br />
+<code>$ autoreconf --install<br />
+$ automake<br />
+$ ./configure --with-boost-libdir=/usr/lib/x86_64-linux-gnu/</code></p>
+<p>3- Ahora viene la madre del cordero. En el archivo <strong>fuegomain/Makefile</strong> (y <strong>no</strong> en el Makefile del directorio en el que nos encontramos) hacemos la siguiente modificación en la línea</p>
+<p>$(BOOST_THREAD_LIB)</p>
+<p>convirtiéndola en estas dos líneas</p>
+<p>$(BOOST_THREAD_LIB) \<br />
+-lpthread</p>
+<p>4- Ahora todo debería ir como la seda con:<br />
+<code>$ make<br />
+$ sudo make install</code></p>
+<p>Finalmente, para tenerlo funcionando en Gogui simplemente vamos a Program-&gt;New Program y en el campo "Command" escribimos "fuego" y listos.<br />
+Hay una serie de opciones que podemos configurar para este motor, pero lo trataremos en otra entrada del blog.</p>

@@ -1,0 +1,47 @@
+---
+layout: post
+title: Instalando el motor Oakfoam bajo linux
+date: 2015-03-08 12:22:47.000000000 +01:00
+type: post
+parent_id: '0'
+published: true
+password: ''
+status: publish
+categories:
+- motor
+- Software
+- Tutoriales
+tags: []
+meta:
+  _wpas_skip_facebook: '1'
+  _wpas_skip_google_plus: '1'
+  _wpas_skip_twitter: '1'
+  _wpas_skip_linkedin: '1'
+  _wpas_skip_tumblr: '1'
+  _wpas_skip_path: '1'
+  _rest_api_published: '1'
+  _rest_api_client_id: "-1"
+  _edit_last: '1881'
+  _publicize_job_id: '20338385457'
+author:
+  login: put0linux
+  email: uc3709@yahoo.es
+  display_name: put0linux
+  first_name: Emilio
+  last_name: Díaz
+permalink: "/2015/03/08/instalando-el-motor-oakfoam-bajo-linux/"
+---
+<p>Oakfoam es un motor de juego que tenía olvidado. Como es habitual en estos tiempos, se trata de un motor «tipo Monte-Carlo», escrito en C++ y distribuido bajo la <a href="https://en.wikipedia.org/wiki/BSD_licenses">licencia BSD</a>.<br />
+Según la propia <a href="http://oakfoam.com/">web</a>, su fuerza es de unos 5kyu en KGS.</p>
+<p><strong>Instalación</strong><br />
+Desde <a href="http://oakfoam.com/#downloads">aquí</a> podemos descargar un .deb de Oakfoam o el código para compilarlo. Como uno es un chicarrón del norte, evidentemente la segunda opción es la adecuada.<br />
+Otra opción para conseguir el código fuente es obtenerlo desde el <a href="https://bitbucket.org/francoisvn/oakfoam/wiki/Home">repositorio de bitbucket</a>.<br />
+Se supone que Oakfoam se instala -siempre que se cumplan las <a href="https://bitbucket.org/francoisvn/oakfoam/wiki/Install">dependencias</a>, que son básicamente gcc, make y boostlibraries- con facilidad, pero la verdad es que, tras ejecutar «./configure», tuve que guglear un rato hasta dar con el truco de añadir en el Makefile a pinrel las líneas<br />
+FLAGS  = -L/lib64<br />
+LIBS = -lpthread<br />
+Tras esto, la ejecución de «make» sí que fue como la seda.<br />
+Tras la compilación, si lanzamos el motor, nos dirá que no ha cargado ningún libro de fusekis. Una manera de solucionarlo es bajar uno de los que usa Fuego de <a href="http://gnugo.baduk.org/fuegoob.htm">aquí</a>, y copiarlo sin más en el mismo directorio que en el que se encuentra el ejecutable de Oakfoamn. Eso sí, esto hará que el arranque de Oakfoam sea mucho más lento -quizás del orden del minuto (!).</p>
+<p><strong>Oakfoam bajo Gogui</strong><br />
+Instalar Oakfoam bajo <a href="https://canbaduk.wordpress.com/2014/11/04/gogui-y-gnugo/">Gogui</a> no tiene mayor misterio.<br />
+Una de las pegas que le veo a este motor es que -al menos por lo que he visto- no se puede lanzar seleccionando una serie de parámetros, de modo que estos se tienen que modificar, cada vez que cargamos el motor, desde el panel Tools-&gt; Analyze Commands. Así, por ejemplo, si queremos limitar el tiempo máximo que queremos que demore Oakfoam en hacer un movimiento -lo cual, desde mi experiencia, es bastante deseable- hemos de elegir la entrada «Parameters (Time)» y en «Time move max» poner el valor, en segundos, que deseemos.<br />
+En <a href="https://bitbucket.org/francoisvn/oakfoam/wiki/Parameters">este link</a> tenemos una lista de los parámetros más importantes.</p>
